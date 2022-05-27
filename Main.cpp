@@ -1,5 +1,3 @@
-Shortcuts simplify My Drive … 
-In the coming weeks, items in more than one folder will be replaced by shortcuts. Access to files and folders won't change.Learn more
 #include <iostream>
 #include <fstream>
 #include <string>
