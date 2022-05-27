@@ -4,9 +4,10 @@ It implements a FSA, decision table, PDA and a complete precedence table.
 It reads the input code character by character and then goes through the decision table to see if it is valid grammar.
 It converts all input code into assembly code.
 It implements I/O calls and executes them.
+This compiler generates a token table, symboltable, and a .asm file that you can execute on a Linux environment. 
 
 HOW TO RUN:
-Create a input file that follows the JAVA0 programming language syntax named "Input.txt" (remember it must be in the same directory code files to run, if you do not want the input file to be in the same directory, then you will need to specify what directory yopu want to fetch it from on line ____).
+Create a input file that follows the JAVA0 programming language syntax named "Input.txt" (remember it must be in the same directory code files to run).
 From there, you can run the code and play around with Java0 and execute the .asm file the compiler generates.
 
 INPUT EXAMPLES:
