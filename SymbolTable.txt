@@ -1,4 +1,4 @@
-Token			Class			Value		    Address		Segment
+Token			Class			Value		   Address		    Segment
 ------------------------------------------------------------------------------------------------------
 PGM1			CLASS			0			0			CS
 A			VAR			0			0			DS
