@@ -1,0 +1,201 @@
+sys_exit equ 1
+sys_read equ 3
+sys_write equ 4
+stdin equ 0 ; default keyboard | I/O redirection 
+stdout equ 1 ; default terminal screen 
+stderr equ 3
+
+section .data
+userMsg	db 'Enter an integer(less than 32,765): '
+lenUserMsg equ $-userMsg
+displayMsg	db 'You entered: '
+lenDisplayMsg equ $-displayMsg
+newline	db 0xA 	; 0xA 0xD is ASCII <LF><CR>
+Ten DW 10  ;Used converting to base ten.
+;printTempchar db 'Tempchar = : '
+;lenprintTempchar	equ $-printTempchar
+
+Result db 'Ans = '
+ResultValue db	'aaaaa'
+		db	 0xA		;return
+ResultEnd equ $-Result
+			; $=> here - address Result = length to print
+
+num times 6 db 'ABCDEF' ;cheat NASM
+numEnd equ	$-num
+
+M  DW 13
+N  DW 56
+Lit27 DW 27
+Lit15 DW 15
+Lit28 DW 28
+Lit18 DW 18
+Lit122 DW 122
+Lit2 DW 2
+Lit299 DW 299
+Lit90 DW 90
+
+
+
+section .bss
+
+TempChar RESB 1
+testchar RESB 1
+ReadInt RESW 1
+tempint RESW 1
+negflag RESB 1
+
+A  RESW 1
+B  RESW 1
+F  RESW 1
+
+T0  RESW 1
+T1  RESW 1
+T2  RESW 1
+T3  RESW 1
+T4  RESW 1
+T5  RESW 1
+T6  RESW 1
+T7  RESW 1
+T8  RESW 1
+T9  RESW 1
+T10  RESW 1
+
+
+section .text
+	global _start
+_start: 
+	call PrintString
+	call GetAnInteger
+	mov ax, [ReadInt]
+	mov [F], ax
+	mov ax, [Lit27]
+	add ax,15
+	mov [T1], ax
+	mov ax, [Lit28]
+	mov bx, [Lit18]
+	mul bx
+	mov [T2], eax
+	mov ax,[T1]
+	sub ax,[T2]
+	mov [T3], ax
+	mov ax,[T3]
+	add ax,122
+	mov [T4], ax
+	mov ax,[T4]
+	mov [A], ax
+	mov ax, [Lit2]
+	sub ax,299
+	mov [T1], ax
+	mov ax,[A]
+	add ax,[T1]
+	mov [T2], ax
+	mov ax,[T2]
+	mov [B], ax
+	mov ax,[A]
+	cmp ax,[B]
+JL L1
+	call PrintString
+	call GetAnInteger
+	mov ax, [ReadInt]
+	mov [A], ax
+JMP L2
+L1: NOP
+	mov ax, [N]
+	mov [M], ax
+L2: NOP
+	mov ax, [Lit90]
+	add ax,[A]
+	mov [T1], ax
+	mov ax, [Lit28]
+	mov bx, [T1]
+	mul bx
+	mov [T2], eax
+	mov ax,[T2]
+	mov [F], ax
+	mov ax, [F]
+	call ConvertIntegerToString
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, Result
+	mov edx, ResultEnd
+	int 80h
+	mov ax, [B]
+	call ConvertIntegerToString
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, Result
+	mov edx, ResultEnd
+	int 80h
+
+	;exit code
+	mov eax, sys_exit
+	xor ebx, ebx
+	int 80h
+
+
+
+
+PrintString:
+	push ax
+	push dx
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, userMsg
+	mov edx, lenUserMsg
+	int 80h
+	pop dx
+	pop ax
+	ret
+	;DONE
+
+
+GetAnInteger:
+	mov eax, 3
+	mov ebx, 2
+	mov ecx, num
+	mov edx, 6
+	int 0x80
+	mov edx, eax
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, num
+	int 80h
+
+
+ConvertStringToInteger:
+	mov ax, 0
+	mov [ReadInt], ax
+	mov ecx, num
+	mov bx, 0
+	mov bl, byte [ecx]
+Next:
+	sub bl, '0'
+	mov ax, [ReadInt]
+	mov dx, 10
+	mul dx
+	add ax, bx
+	mov [ReadInt], ax
+	mov bx, 0
+	add ecx, 1
+	mov bl, byte[ecx]
+	cmp bl, 0xA
+	jne Next
+	ret
+
+
+ConvertIntegerToString:
+	mov ebx, ResultValue + 4
+
+ConvertLoop:
+	sub dx, dx
+	mov cx, 10
+	div cx
+	add dl, '0'
+	mov [ebx], dl
+	dec ebx
+	cmp ebx, ResultValue
+	jge ConvertLoop
+	ret
+
+

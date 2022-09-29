@@ -1,0 +1,17 @@
+Token			Class			Value		Address		Segment
+--------------------------------------------------------------------------
+PGM1			CLASS			0			0			CS
+A			VAR			0			0			DS
+B			VAR			0			2			DS
+F			VAR			0			4			DS
+M			CONST			13			6			DS
+N			CONST			56			8			DS
+27			NUMLIT		27			10			DS
+15			NUMLIT		15			10			DS
+28			NUMLIT		28			10			DS
+18			NUMLIT		18			10			DS
+122			NUMLIT		122			10			DS
+2			NUMLIT		2			10			DS
+299			NUMLIT		299			10			DS
+28			NUMLIT		28			10			DS
+90			NUMLIT		90			10			DS

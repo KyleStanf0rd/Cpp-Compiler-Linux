@@ -1,0 +1,5 @@
+Enter an integer(less than 32,765): 555
+555
+Enter an integer(less than 32,765): 26
+26
+Ans = 03248
